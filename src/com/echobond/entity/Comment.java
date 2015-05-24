@@ -3,6 +3,11 @@ package com.echobond.entity;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * 
+ * @author Luck
+ *
+ */
 public class Comment {
 	private int id;
 	private String userId;

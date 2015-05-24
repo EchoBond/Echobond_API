@@ -1,48 +1,48 @@
 package com.echobond.entity;
 
+/**
+ * 
+ * @author Luck
+ *
+ */
 public class MyImage {
 	private int id;
-	private String path;
-	private String thumbnailPath;
-	private byte[] src;
-	private byte[] thumbnailSrc;
-	             
-	public String getPath() {
-		return path;
-	}
-	public void setPath(String path) {
-		this.path = path;
-	}
-	public byte[] getImageSrc() {
-		return src;
-	}
-	public void setImageSrc(byte[] src) {
-		this.src = src;
-	}
+	private String thumbPath;
+	private String originPath;
+	private String thumb;
+	private String origin;
+
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getThumbnailPath() {
-		return thumbnailPath;
+	public String getThumbPath() {
+		return thumbPath;
 	}
-	public void setThumbnailPath(String thumbnailPath) {
-		this.thumbnailPath = thumbnailPath;
+	public void setThumbPath(String thumbPath) {
+		this.thumbPath = thumbPath;
 	}
-	public byte[] getSrc() {
-		return src;
+	public String getOriginPath() {
+		return originPath;
 	}
-	public void setSrc(byte[] src) {
-		this.src = src;
+	public void setOriginPath(String originPath) {
+		this.originPath = originPath;
 	}
-	public byte[] getThumbnailSrc() {
-		return thumbnailSrc;
+	public String getThumb() {
+		return thumb;
 	}
-	public void setThumbnailSrc(byte[] thumbnailSrc) {
-		this.thumbnailSrc = thumbnailSrc;
+	public void setThumb(String thumb) {
+		this.thumb = thumb;
 	}
-	
+	public String getOrigin() {
+		return origin;
+	}
+	public void setOrigin(String origin) {
+		this.origin = origin;
+	}
+
+
 	
 }

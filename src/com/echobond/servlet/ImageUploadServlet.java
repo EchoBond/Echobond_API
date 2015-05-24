@@ -17,6 +17,7 @@ import com.echobond.dao.ImageDAO;
 import com.echobond.util.StringUtil;
 
 /**
+ * @author Luck
  * Servlet implementation class ImageUploadServlet
  */
 public class ImageUploadServlet extends HttpServlet {
@@ -56,6 +57,7 @@ public class ImageUploadServlet extends HttpServlet {
 		sqlProperties = (Properties) getServletContext().getAttribute("sqlProperties");
 		dao = new ImageDAO();
 		dao.setSqlProperties(sqlProperties);
+		dao.setCtx(this.getServletContext());
 		log.debug("Servlet initiated.");
 	}
 }

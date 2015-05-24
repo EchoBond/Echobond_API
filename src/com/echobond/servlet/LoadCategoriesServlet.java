@@ -16,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 import com.echobond.dao.ValueDAO;
 
 /**
+ * @author Luck
  * Servlet implementation class UpdateTagServlet
  */
 public class LoadCategoriesServlet extends HttpServlet {

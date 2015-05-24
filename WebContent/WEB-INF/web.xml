@@ -322,4 +322,14 @@
     <servlet-name>TestServlet</servlet-name>
     <url-pattern>/TestServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ImageDownloadServlet</display-name>
+    <servlet-name>ImageDownloadServlet</servlet-name>
+    <servlet-class>com.echobond.servlet.ImageDownloadServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ImageDownloadServlet</servlet-name>
+    <url-pattern>/ImageDownloadServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

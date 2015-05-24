@@ -20,27 +20,38 @@ import com.echobond.util.DateUtil;
 
 import net.sf.json.JSONObject;
 
+/**
+ * 
+ * manipulate thought tables 
+ * @author Luck
+ *
+ */
 public class ThoughtDAO {
 	private final static int HOT_THOUGHT = 0;
 	private final static int HOME_THOUGHT=1;
 	private Properties sqlProperties;
 	private Logger log = LogManager.getLogger("Thought");
 
+	/**
+	 * save a thought
+	 * @param t
+	 * @return thought
+	 */
 	public JSONObject postThought(Thought t){
 		log.debug("Saving thought post.");
 		JSONObject result = new JSONObject();
 		Object[] params = new Object[]{t.getUserId(), t.getLangId(), t.getCategoryId(), t.getGroupId(), t.getContent(), t.getImage(), DateUtil.dateToString(new Date(),null)};
-		ResultResource rp = new ResultResource();
-		DBUtil.getInstance().update(sqlProperties.getProperty("addNewThought"),rp, params);
-		DBUtil.getInstance().query(sqlProperties.getProperty("loadInsertId"), rp, new Object[]{});
+		ResultResource rr = new ResultResource();
+		DBUtil.getInstance().update(sqlProperties.getProperty("addNewThought"),rr, params);
+		DBUtil.getInstance().query(sqlProperties.getProperty("loadInsertId"), rr, new Object[]{});
 		int id = 0;
 		try {
-			rp.getRs().next();
-			id = rp.getRs().getInt("id");
+			rr.getRs().next();
+			id = rr.getRs().getInt("id");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			rp.close();
+			rr.close();
 			t.setId(id);
 		}
 		tagThought(t);
@@ -49,6 +60,11 @@ public class ThoughtDAO {
 		return result;
 	}
 	
+	/**
+	 * load thought list
+	 * @param request
+	 * @return thought list
+	 */
 	@SuppressWarnings("unchecked")
 	public JSONObject loadThought(JSONObject request){
 		log.debug("Loading thoughts.");
@@ -89,6 +105,7 @@ public class ThoughtDAO {
 					ResultResource rrComment = DBUtil.getInstance().query(sqlProperties.getProperty("loadCommentsByThoughtId"), new Object[]{t.getId(),0,limit});
 					t.loadComments(rrComment);
 					thoughts.add(t);
+					rrComment.close();
 				}
 			
 			} catch (SQLException e) {
@@ -116,6 +133,7 @@ public class ThoughtDAO {
 					ResultResource rrComment = DBUtil.getInstance().query(sqlProperties.getProperty("loadCommentsByThoughtId"), new Object[]{t.getId(),0,limit});
 					t.loadComments(rrComment);
 					thoughts.add(t);
+					rrComment.close();
 				}
 			
 			} catch (SQLException e) {

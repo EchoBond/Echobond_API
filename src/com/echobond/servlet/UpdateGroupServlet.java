@@ -19,6 +19,7 @@ import com.echobond.entity.Tag;
 import com.echobond.util.StringUtil;
 
 /**
+ * @author Luck
  * Servlet implementation class UpdateTagServlet
  */
 public class UpdateGroupServlet extends HttpServlet {

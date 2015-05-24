@@ -70,6 +70,10 @@ public class ContextListener implements ServletContextListener, ServletContextAt
     public void attributeRemoved(ServletContextAttributeEvent arg0) {
     }
     
+    /**
+     * initiate database resources
+     * @param ctx
+     */
     private void initDB(ServletContext ctx){
     	log.debug("Initiating database.");
     	dbProperties = new Properties();
@@ -92,6 +96,10 @@ public class ContextListener implements ServletContextListener, ServletContextAt
 		log.debug("Database initiation processed.");
     }
     
+    /**
+     * initiate email settings
+     * @param ctx
+     */
     private void initEmail(ServletContext ctx){
     	log.debug("Loading email service properties.");
 		String username = ctx.getInitParameter("SMTPUsername");
@@ -105,6 +113,10 @@ public class ContextListener implements ServletContextListener, ServletContextAt
 		log.debug("Loading Email service properties processed.");
     }
     
+    /**
+     * load pre-defined SQLs
+     * @param ctx
+     */
 	private void loadSql(ServletContext ctx) {
 		log.debug("Loading SQLs.");
 		sqlProperties = new Properties();
@@ -118,6 +130,10 @@ public class ContextListener implements ServletContextListener, ServletContextAt
 		log.debug("Loading SQLs processed.");
 	}
 	
+	/**
+	 * initiate GCM settings
+	 * @param ctx
+	 */
 	private void initGCM(ServletContext ctx) {
 		log.debug("Loading GCM properties.");
 		gcmProperties = new Properties();
@@ -132,6 +148,10 @@ public class ContextListener implements ServletContextListener, ServletContextAt
 		log.debug("Loading GCM properties processed.");
 	}
 
+	/**
+	 * release database resources
+	 * @param ctx
+	 */
 	private void stopDB(ServletContext ctx) {
 		log.debug("Releasing Database resources.");
 		DBUtil.getInstance().unregisterDataSource();

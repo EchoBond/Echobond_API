@@ -17,6 +17,7 @@ import com.echobond.dao.ThoughtDAO;
 import com.echobond.util.StringUtil;
 
 /**
+ * @author Luck
  * Servlet implementation class LoadThoughtsServlet
  */
 public class LoadThoughtsServlet extends HttpServlet {

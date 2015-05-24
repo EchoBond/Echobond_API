@@ -11,6 +11,11 @@ import net.sf.json.JSONObject;
 import com.echobond.entity.RawHttpRequest;
 import com.echobond.entity.RawHttpResponse;
 
+/**
+ * 
+ * @author Luck
+ *
+ */
 public class GCMUtil {
 	private static class GCMUtilHolder{
 		public static GCMUtil INSTANCE = new GCMUtil(); 

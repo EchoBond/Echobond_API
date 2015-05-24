@@ -19,6 +19,7 @@ import com.echobond.entity.Thought;
 import com.echobond.util.StringUtil;
 
 /**
+ * @author Luck
  * Servlet implementation class PostThoughtServlet
  */
 public class PostThoughtServlet extends HttpServlet implements Servlet {

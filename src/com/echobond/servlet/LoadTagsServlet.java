@@ -18,6 +18,7 @@ import com.echobond.entity.User;
 import com.echobond.util.StringUtil;
 
 /**
+ * @author Luck
  * Servlet implementation class UpdateTagServlet
  */
 public class LoadTagsServlet extends HttpServlet {

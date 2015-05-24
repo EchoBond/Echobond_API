@@ -8,24 +8,28 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONObject;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.echobond.dao.UserDao;
+import com.echobond.dao.ImageDAO;
+import com.echobond.util.StringUtil;
 
 /**
  * @author Luck
- * Servlet implementation class LoadUsersServlet
+ * Servlet implementation class ImageDownloadServlet
  */
-public class LoadUsersServlet extends HttpServlet {
+public class ImageDownloadServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Properties sqlProperties;
-	private UserDao dao;
-	private Logger log = LogManager.getLogger("LoadUsers");
+	private ImageDAO dao;
+	private Logger log = LogManager.getLogger("ImageDownload");
+       
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoadUsersServlet() {
+    public ImageDownloadServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,7 +38,10 @@ public class LoadUsersServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		JSONObject reqJSON = StringUtil.fromReaderToJSON(request.getReader());
+		JSONObject result = dao.downloadImage(reqJSON);
+		response.setContentType("text/json;charset=UTF-8");
+		response.getWriter().write(result.toString());
 	}
 
 	/**
@@ -43,12 +50,12 @@ public class LoadUsersServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
-	
+
 	@Override
 	public void init() throws ServletException {
 		log.debug("Servlet initiating.");
-		sqlProperties = (Properties) this.getServletContext().getAttribute("sqlProperties");
-		dao = new UserDao();
+		sqlProperties = (Properties) getServletContext().getAttribute("sqlProperties");
+		dao = new ImageDAO();
 		dao.setSqlProperties(sqlProperties);
 		log.debug("Servlet initiated.");
 	}

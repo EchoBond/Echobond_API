@@ -2,6 +2,11 @@ package com.echobond.entity;
 
 import java.util.Map;
 
+/**
+ * 
+ * @author Luck
+ *
+ */
 public class RawHttpRequest {
 	
 	public static final String HTTP_METHOD_POST = "POST";

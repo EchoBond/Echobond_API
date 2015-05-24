@@ -2,6 +2,11 @@ package com.echobond.entity;
 
 import java.util.Map;
 
+/**
+ * 
+ * @author Luck
+ *
+ */
 public class RawHttpResponse {
 	private int code;
 	private Map<?,?> headers;
