@@ -1,6 +1,7 @@
 package com.echobond.servlet;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.Properties;
 
 import javax.servlet.ServletException;
@@ -14,7 +15,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.echobond.dao.ImageDAO;
-import com.echobond.util.StringUtil;
 
 /**
  * @author Luck
@@ -25,6 +25,7 @@ public class ImageUploadServlet extends HttpServlet {
 	private Properties sqlProperties;
 	private ImageDAO dao;
 	private Logger log = LogManager.getLogger("ImageUpload");
+	private String localPath;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -38,7 +39,9 @@ public class ImageUploadServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		JSONObject reqJSON = StringUtil.fromReaderToJSON(request.getReader());
+//		JSONObject reqJSON = StringUtil.fromReaderToJSON(request.getReader());
+		JSONObject reqJSON = new JSONObject();
+		reqJSON.put("data", URLEncoder.encode(request.getParameter("data"),"UTF-8"));
 		JSONObject result = dao.uploadImage(reqJSON);
 		response.setContentType("text/json;charset=UTF-8");
 		response.getWriter().write(result.toString());
@@ -54,10 +57,13 @@ public class ImageUploadServlet extends HttpServlet {
 	@Override
 	public void init() throws ServletException {
 		log.debug("Servlet initiating.");
+		localPath = this.getServletConfig().getInitParameter("localPath");
 		sqlProperties = (Properties) getServletContext().getAttribute("sqlProperties");
 		dao = new ImageDAO();
 		dao.setSqlProperties(sqlProperties);
 		dao.setCtx(this.getServletContext());
+		if(null == dao.getLocalPath())
+			dao.setLocalPath(localPath);
 		log.debug("Servlet initiated.");
 	}
 }

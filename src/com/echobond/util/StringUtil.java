@@ -1,13 +1,12 @@
 package com.echobond.util;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.zip.GZIPOutputStream;
 
 import sun.misc.BASE64Decoder;
 
@@ -170,25 +169,43 @@ public class StringUtil {
 	 * @param imgSrc, path
 	 * @return
 	 */
-	public boolean stringToImg(String imgSrc, String path){
-	    if (imgSrc == null)  
-	        return false;  
-	    try {  
+	public static byte[] stringToImg(String imgSrc){
+	    if (imgSrc == null)
+	        return null;
+	    try {
 	        // Base64 decoding
-	        byte[] b = new BASE64Decoder().decodeBuffer(imgSrc);  
+	        byte[] b = new BASE64Decoder().decodeBuffer(imgSrc);
 	        for (int i = 0; i < b.length; ++i) {
-	            if (b[i] < 0) {  
+	            if (b[i] < 0) {
 	                // adjust error
-	                b[i] += 256;  
-	            }  
+	                b[i] += 256;
+	            }
 	        }
-	        OutputStream out = new FileOutputStream(path);  
-	        out.write(b);  
-	        out.flush();  
-	        out.close();  
-	        return true;  
-	    } catch (Exception e) {  
-	        return false;  
+	        return b;
+	    } catch (Exception e) {
+	        return null;
 	    }  
+	}
+	
+	/**
+	 * Encode image to string by Base64
+	 * @param path
+	 * @return
+	 */
+	public static String imageToStr(String path) {
+		ByteArrayOutputStream bos = null;
+		GZIPOutputStream gos = null;
+		try{
+			byte[] data = FileUtil.readFile(path);
+			bos = new ByteArrayOutputStream(data.length);
+			gos = new GZIPOutputStream(bos);
+			gos.write(data);
+			gos.close();
+			bos.close();
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+		byte[] newdata = bos.toByteArray();
+		return new String(newdata);
 	}
 }
