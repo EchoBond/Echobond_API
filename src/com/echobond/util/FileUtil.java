@@ -60,14 +60,17 @@ public class FileUtil {
 		return Base64.decodeBase64(data);
 	}
 	public static byte[] encode(byte[] data){
-		return Base64.encodeBase64(data);
+		//make sure it is url safe
+		return Base64.encodeBase64(data, false, true);
 	}
 	public static void main(String[] args) {
-		byte[] org = readFile("C:/images/eow.png");
+		byte[] org = readFile("E:/1.png");
 		System.out.println(org.length);
-		byte[] enc = Base64.encodeBase64(org);
+		byte[] enc = Base64.encodeBase64(org, false, true);
+		writeFile("E:/1.txt", enc);
 		System.out.println(enc.length);
 		byte[] dec = Base64.decodeBase64(enc);
 		System.out.println(dec.length);
+		writeFile("E:/eow.png", dec);
 	}
 }

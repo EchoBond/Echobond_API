@@ -1,7 +1,6 @@
 package com.echobond.servlet;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.Properties;
 
 import javax.servlet.ServletException;
@@ -41,7 +40,8 @@ public class ImageUploadServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //		JSONObject reqJSON = StringUtil.fromReaderToJSON(request.getReader());
 		JSONObject reqJSON = new JSONObject();
-		reqJSON.put("data", URLEncoder.encode(request.getParameter("data"),"UTF-8"));
+		reqJSON.put("path", request.getParameter("path"));
+		reqJSON.put("data", request.getParameter("data"));
 		JSONObject result = dao.uploadImage(reqJSON);
 		response.setContentType("text/json;charset=UTF-8");
 		response.getWriter().write(result.toString());
