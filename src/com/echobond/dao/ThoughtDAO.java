@@ -15,6 +15,7 @@ import org.apache.logging.log4j.Logger;
 import com.echobond.entity.ResultResource;
 import com.echobond.entity.Tag;
 import com.echobond.entity.Thought;
+import com.echobond.entity.User;
 import com.echobond.util.DBUtil;
 import com.echobond.util.DateUtil;
 
@@ -31,7 +32,45 @@ public class ThoughtDAO {
 	private final static int HOME_THOUGHT=1;
 	private Properties sqlProperties;
 	private Logger log = LogManager.getLogger("Thought");
-
+	
+	/**
+	 * boost or unboost a thought
+	 * @param t
+	 * @param u
+	 * @return result
+	 */
+	public JSONObject boostThought(Thought thought, User user){
+		log.debug("Boosting thought.");
+		JSONObject result = new JSONObject();
+		//new boost or reboost: 1, otherwise 0
+		int boostValue = 1, boostIncrease;
+		boolean newBoost = false;
+		ResultResource rr = DBUtil.getInstance().query(sqlProperties.getProperty("loadThoughtBoostByUserId"), new Object[]{thought.getId(), user.getId()});
+		try {
+			if(rr.getRs().next()){
+				if(1 == rr.getRs().getInt("boost")){
+					boostValue = 0;
+				}
+			} else {
+				newBoost = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		if(newBoost){
+			DBUtil.getInstance().update(sqlProperties.getProperty("userNewBoostThought"), new Object[]{thought.getId(), user.getId(), DateUtil.dateToString(new Date(), null)});			
+		} else {
+			DBUtil.getInstance().update(sqlProperties.getProperty("userBoostThought"), new Object[]{boostValue, DateUtil.dateToString(new Date(), null), thought.getId(), user.getId()});
+		}
+		if(boostValue == 0)
+			boostIncrease = -1;
+		else boostIncrease = 1;
+		DBUtil.getInstance().update(sqlProperties.getProperty("boostThought"), new Object[]{boostIncrease, thought.getId()});
+		result.put("action", boostValue);
+		log.debug("Boosting thought processed.");
+		return result;
+	}
+	
 	/**
 	 * save a thought
 	 * @param t
@@ -149,6 +188,7 @@ public class ThoughtDAO {
 		default:
 			break;
 		}
+		log.debug("Loading thoughts processed");
 		return result;
 	}
 	

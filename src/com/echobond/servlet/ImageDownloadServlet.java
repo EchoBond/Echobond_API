@@ -65,8 +65,7 @@ public class ImageDownloadServlet extends HttpServlet {
 		localPath = this.getServletConfig().getInitParameter("localPath");
 		dao = new ImageDAO();
 		dao.setSqlProperties(sqlProperties);
-		if(null == dao.getLocalPath())
-			dao.setLocalPath(localPath);
+		dao.setLocalPath(localPath);
 		log.debug("Servlet initiated.");
 	}
 }

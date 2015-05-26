@@ -201,9 +201,9 @@
     <servlet-name>ImageUploadServlet</servlet-name>
     <servlet-class>com.echobond.servlet.ImageUploadServlet</servlet-class>
     <init-param>
-    	<param-name>localPath</param-name>
-    	<param-value>E:/</param-value>
-    </init-param>    
+      <param-name>localPath</param-name>
+      <param-value>E:/</param-value>
+    </init-param>
     <load-on-startup>11</load-on-startup>
   </servlet>
   <servlet>
@@ -254,8 +254,8 @@
     <servlet-name>ImageDownloadServlet</servlet-name>
     <servlet-class>com.echobond.servlet.ImageDownloadServlet</servlet-class>
     <init-param>
-    	<param-name>localPath</param-name>
-    	<param-value>C:/images/</param-value>
+      <param-name>localPath</param-name>
+      <param-value>C:/images/</param-value>
     </init-param>
     <load-on-startup>18</load-on-startup>
   </servlet>
@@ -266,6 +266,13 @@
     <servlet-class>com.echobond.servlet.TestServlet</servlet-class>
     <load-on-startup>19</load-on-startup>
   </servlet>
+  <servlet>
+    <description></description>
+    <display-name>BoostThoughtServlet</display-name>
+    <servlet-name>BoostThoughtServlet</servlet-name>
+    <servlet-class>com.echobond.servlet.BoostThoughtServlet</servlet-class>
+    <load-on-startup>20</load-on-startup>
+  </servlet>  
   <servlet-mapping>
     <servlet-name>SignUpServlet</servlet-name>
     <url-pattern>/SignUpServlet</url-pattern>
@@ -341,5 +348,9 @@
   <servlet-mapping>
     <servlet-name>ImageDownloadServlet</servlet-name>
     <url-pattern>/ImageDownloadServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>BoostThoughtServlet</servlet-name>
+    <url-pattern>/BoostThoughtServlet</url-pattern>
   </servlet-mapping>
 </web-app>

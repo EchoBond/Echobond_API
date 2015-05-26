@@ -13,23 +13,24 @@ import net.sf.json.JSONObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.echobond.dao.ImageDAO;
+import com.echobond.dao.ThoughtDAO;
+import com.echobond.entity.Thought;
+import com.echobond.entity.User;
+import com.echobond.util.StringUtil;
 
 /**
- * @author Luck
- * Servlet implementation class ImageUploadServlet
+ * Servlet implementation class BoostThoughtServlet
  */
-public class ImageUploadServlet extends HttpServlet {
+public class BoostThoughtServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private ThoughtDAO dao;
 	private Properties sqlProperties;
-	private ImageDAO dao;
-	private Logger log = LogManager.getLogger("ImageUpload");
-	private String localPath;
+	private Logger log = LogManager.getLogger("BoostThought");
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ImageUploadServlet() {
+    public BoostThoughtServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -38,11 +39,12 @@ public class ImageUploadServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		JSONObject reqJSON = StringUtil.fromReaderToJSON(request.getReader());
-		JSONObject reqJSON = new JSONObject();
-		reqJSON.put("path", request.getParameter("path"));
-		reqJSON.put("data", request.getParameter("data"));
-		JSONObject result = dao.uploadImage(reqJSON);
+		//Reader -> JSON String -> JSONObject
+		JSONObject reqJSON = StringUtil.fromReaderToJSON(request.getReader());
+		//JSONObject -> Bean
+		JSONObject thoughtJSON = reqJSON.getJSONObject("thought");
+		JSONObject userJSON = reqJSON.getJSONObject("user");
+		JSONObject result = dao.boostThought((Thought)JSONObject.toBean(thoughtJSON, Thought.class), (User)JSONObject.toBean(userJSON, User.class));
 		response.setContentType("text/json;charset=UTF-8");
 		response.getWriter().write(result.toString());
 	}
@@ -57,12 +59,9 @@ public class ImageUploadServlet extends HttpServlet {
 	@Override
 	public void init() throws ServletException {
 		log.debug("Servlet initiating.");
-		localPath = this.getServletConfig().getInitParameter("localPath");
 		sqlProperties = (Properties) getServletContext().getAttribute("sqlProperties");
-		dao = new ImageDAO();
+		dao = new ThoughtDAO();
 		dao.setSqlProperties(sqlProperties);
-		dao.setCtx(this.getServletContext());
-		dao.setLocalPath(localPath);
 		log.debug("Servlet initiated.");
 	}
 }
