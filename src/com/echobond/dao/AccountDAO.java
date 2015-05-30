@@ -1,6 +1,7 @@
 package com.echobond.dao;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.Properties;
 
 import org.apache.logging.log4j.LogManager;
@@ -10,6 +11,7 @@ import com.echobond.entity.MyEmail;
 import com.echobond.entity.ResultResource;
 import com.echobond.entity.User;
 import com.echobond.util.DBUtil;
+import com.echobond.util.DateUtil;
 import com.echobond.util.EmailUtil;
 import com.echobond.util.StringUtil;
 
@@ -25,6 +27,31 @@ public class AccountDAO {
 	private Properties sqlProperties;
 	private int expiry;
 	private Logger log = LogManager.getLogger("Account");
+	
+	public JSONObject regUserGCM(String userId, String email, String regId){
+		JSONObject result = new JSONObject();
+		ResultResource rr = DBUtil.getInstance().query(sqlProperties.getProperty("loadUserByUserIdAndEmail"), new Object[]{userId, email});
+		try {
+			if(rr.getRs().next()){
+				rr.close();
+				rr = DBUtil.getInstance().query(sqlProperties.getProperty("loadUserGCM"), new Object[]{userId, regId});
+				if(rr.getRs().next()){
+					String oldRegId = rr.getRs().getString("reg_id");
+					DBUtil.getInstance().update(sqlProperties.getProperty("updateUserGCM"), new Object[]{regId, DateUtil.dateToString(new Date(), null), userId, oldRegId});
+				} else {
+					DBUtil.getInstance().update(sqlProperties.getProperty("regUserGCM"), new Object[]{userId, regId, DateUtil.dateToString(new Date(), null)});
+				}
+				result.put("result", "1");
+			} else {
+				result.put("result", "0");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			rr.close();
+		}
+		return result;
+	}
 	
 	/**
 	 * activate an account

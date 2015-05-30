@@ -8,28 +8,27 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONObject;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.echobond.dao.ImageDAO;
+import net.sf.json.JSONObject;
+
+import com.echobond.dao.AccountDAO;
+import com.echobond.util.StringUtil;
 
 /**
- * @author Luck
- * Servlet implementation class ImageDownloadServlet
+ * Servlet implementation class GCMRegServlet
  */
-public class ImageDownloadServlet extends HttpServlet {
+public class GCMRegServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private AccountDAO dao;
 	private Properties sqlProperties;
-	private ImageDAO dao;
-	private Logger log = LogManager.getLogger("ImageDownload");
-	private String localPath;
-       
+	private Logger log = LogManager.getLogger("GCMReg");
+	
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ImageDownloadServlet() {
+    public GCMRegServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -38,13 +37,13 @@ public class ImageDownloadServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		JSONObject reqJSON = StringUtil.fromReaderToJSON(request.getReader());
-		JSONObject reqJSON = new JSONObject();
-		String path = request.getParameter("path");
-		reqJSON.put("path", path);
-		byte[] bytes = dao.downloadImage(reqJSON);
-		response.setContentType("image/jpg");
-		response.getOutputStream().write(bytes);
+		JSONObject reqJSON = StringUtil.fromReaderToJSON(request.getReader());
+		String userId = reqJSON.getString("userId");
+		String email = reqJSON.getString("email");
+		String regId = reqJSON.getString("regId");
+		JSONObject result = dao.regUserGCM(userId, email, regId);
+		response.setContentType("text/json;charset=UTF-8");
+		response.getWriter().write(result.toString());
 	}
 
 	/**
@@ -53,15 +52,13 @@ public class ImageDownloadServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
-
 	@Override
 	public void init() throws ServletException {
 		log.debug("Servlet initiating.");
 		sqlProperties = (Properties) getServletContext().getAttribute("sqlProperties");
-		localPath = this.getServletConfig().getInitParameter("localPath");
-		dao = new ImageDAO();
+		dao = new AccountDAO();
 		dao.setSqlProperties(sqlProperties);
-		dao.setLocalPath(localPath);
 		log.debug("Servlet initiated.");
 	}
+
 }

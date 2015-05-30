@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.echobond.dao.ImageDAO;
+import com.echobond.util.StringUtil;
 
 /**
  * @author Luck
@@ -38,10 +39,7 @@ public class ImageUploadServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		JSONObject reqJSON = StringUtil.fromReaderToJSON(request.getReader());
-		JSONObject reqJSON = new JSONObject();
-		reqJSON.put("path", request.getParameter("path"));
-		reqJSON.put("data", request.getParameter("data"));
+		JSONObject reqJSON = StringUtil.fromReaderToJSON(request.getReader());
 		JSONObject result = dao.uploadImage(reqJSON);
 		response.setContentType("text/json;charset=UTF-8");
 		response.getWriter().write(result.toString());

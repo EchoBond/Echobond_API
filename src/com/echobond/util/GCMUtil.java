@@ -2,6 +2,7 @@ package com.echobond.util;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
 
@@ -26,7 +27,7 @@ public class GCMUtil {
 	
 	private Properties gcmProperties;
 	
-	public RawHttpResponse sendToDevice(String regId){
+	public RawHttpResponse sendToDevices(ArrayList<String> regIdList, JSONObject data){
 		//headers
 		HashMap<String, String> headers = new HashMap<String, String>();
 		String url = gcmProperties.getProperty("Auth-Server");
@@ -36,14 +37,15 @@ public class GCMUtil {
 		headers.put("Content-Type", contType);
 		//JSON request body
 		JSONObject reqBody = new JSONObject();
-		JSONObject data = new JSONObject();
+		JSONObject dataWrap = new JSONObject();
 		JSONArray regIds = new JSONArray();
-		data.put("score", "5x1");
-		data.put("time", "15:10");
-		//regIds.add("APA91bFbVmWeNSV-Wp4nfWz6c2xqJskeM3wJNkREk2DOKyDCD2AzxuFNlE1oSm6dbUujIEpdc31gFeA6RBWTh7IsZHVYXTFC4FZVHU8xX65PPOqtbPHsDnIMc6hKXkSTKkmr82QkTRMuAwTsHgWZ7TbwolWwsXS5ww");
-		regIds.add(regId);
+		//regId
+		for(String regId: regIdList){
+			regIds.add(regId);
+		}
 		reqBody.put("registration_ids", regIds);
-		reqBody.put("data", data);
+		dataWrap.put("data", data);
+		reqBody.put("data", dataWrap);
 		RawHttpRequest request = new RawHttpRequest(url, RawHttpRequest.HTTP_METHOD_POST, headers, reqBody);
 		RawHttpResponse response = null;
 		try {
@@ -63,5 +65,18 @@ public class GCMUtil {
 	public void setGcmProperties(Properties gcmProperties) {
 		this.gcmProperties = gcmProperties;
 	}
-	
+	public static void main(String[] args) {
+		ArrayList<String> regIdList = new ArrayList<String>();
+		regIdList.add("APA91bESvNoN0rNhPDx7MUkMVDmwWMD050pCzqr-ndg9wpU1I4ib7EUayVSgCAFOj0Xl0JjMy_xiDp6Fk1dqCb8qV37Yw7xBhyW-sxe_P94qZdIN6rehjpaBZNxRUvChw8FZA3tTk7Jf");
+		JSONObject data = new JSONObject();
+		getInstance().gcmProperties = new Properties();
+		getInstance().gcmProperties.setProperty("Auth-Server", "https://android.googleapis.com/gcm/send");
+		getInstance().gcmProperties.setProperty("Authorization", "key=AIzaSyAO4pcWMUq2xukdGphSdrht3H3fWKDP5u4");
+		getInstance().gcmProperties.setProperty("Content-Type", "application/json");
+		data.put("type", "newBoost");
+		data.put("thought", "hike");
+		data.put("category", "interest");
+		RawHttpResponse response = getInstance().sendToDevices(regIdList, data);
+		System.out.println(response.getMsg());
+	}
 }

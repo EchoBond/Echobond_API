@@ -56,6 +56,8 @@ public class ThoughtDAO {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			rr.close();
 		}
 		if(newBoost){
 			DBUtil.getInstance().update(sqlProperties.getProperty("userNewBoostThought"), new Object[]{thought.getId(), user.getId(), DateUtil.dateToString(new Date(), null)});			

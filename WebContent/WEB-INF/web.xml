@@ -202,7 +202,7 @@
     <servlet-class>com.echobond.servlet.ImageUploadServlet</servlet-class>
     <init-param>
       <param-name>localPath</param-name>
-      <param-value>E:/</param-value>
+      <param-value>C:/images/</param-value>
     </init-param>
     <load-on-startup>11</load-on-startup>
   </servlet>
@@ -272,6 +272,13 @@
     <servlet-name>BoostThoughtServlet</servlet-name>
     <servlet-class>com.echobond.servlet.BoostThoughtServlet</servlet-class>
     <load-on-startup>20</load-on-startup>
+  </servlet>
+  <servlet>
+    <description></description>
+    <display-name>GCMRegServlet</display-name>
+    <servlet-name>GCMRegServlet</servlet-name>
+    <servlet-class>com.echobond.servlet.GCMRegServlet</servlet-class>
+    <load-on-startup>21</load-on-startup>
   </servlet>  
   <servlet-mapping>
     <servlet-name>SignUpServlet</servlet-name>
@@ -352,5 +359,9 @@
   <servlet-mapping>
     <servlet-name>BoostThoughtServlet</servlet-name>
     <url-pattern>/BoostThoughtServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GCMRegServlet</servlet-name>
+    <url-pattern>/GCMRegServlet</url-pattern>
   </servlet-mapping>
 </web-app>
