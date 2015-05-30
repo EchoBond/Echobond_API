@@ -24,6 +24,7 @@ public class Thought {
 	private int boost;
 	private ArrayList<Comment> comments;
 	
+	private int isUserBoost;
 	private User user;
 	private Language lang;
 	private Group group;
@@ -72,6 +73,17 @@ public class Thought {
 				Comment comment = new Comment();
 				comment.loadCommentProperties(rrComment.getRs());
 				comments.add(comment);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public void loadUserBoost(ResultResource rrUserBoost){
+		try {
+			if(rrUserBoost.getRs().next()){
+				isUserBoost = rrUserBoost.getRs().getInt("boost");
+			} else {
+				isUserBoost = 0;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -178,6 +190,12 @@ public class Thought {
 	}
 	public void setComments(ArrayList<Comment> comments) {
 		this.comments = comments;
+	}
+	public int getIsUserBoost() {
+		return isUserBoost;
+	}
+	public void setIsUserBoost(int isUserBoost) {
+		this.isUserBoost = isUserBoost;
 	}
 
 }

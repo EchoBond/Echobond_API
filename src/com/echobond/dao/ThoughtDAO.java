@@ -43,7 +43,7 @@ public class ThoughtDAO {
 		log.debug("Boosting thought.");
 		JSONObject result = new JSONObject();
 		//new boost or reboost: 1, otherwise 0
-		int boostValue = 1, boostIncrease;
+		int boostValue = 1, boostIncrease, totalBoost = 0;
 		boolean newBoost = false;
 		ResultResource rr = DBUtil.getInstance().query(sqlProperties.getProperty("loadThoughtBoostByUserId"), new Object[]{thought.getId(), user.getId()});
 		try {
@@ -68,7 +68,18 @@ public class ThoughtDAO {
 			boostIncrease = -1;
 		else boostIncrease = 1;
 		DBUtil.getInstance().update(sqlProperties.getProperty("boostThought"), new Object[]{boostIncrease, thought.getId()});
+		rr = DBUtil.getInstance().query(sqlProperties.getProperty("loadThoughtBoostByThoughtId"), new Object[]{thought.getId()});
+		try {
+			rr.getRs().next();
+			totalBoost = rr.getRs().getInt("boost");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			rr.close();
+		}
 		result.put("action", boostValue);
+		result.put("id", thought.getId());
+		result.put("total", totalBoost);
 		log.debug("Boosting thought processed.");
 		return result;
 	}
@@ -115,6 +126,7 @@ public class ThoughtDAO {
 		int limit = request.getInt("limit");
 		ArrayList<Thought> thoughts = new ArrayList<Thought>();
 		ResultResource rr = null;
+		JSONObject user = request.getJSONObject("user");
 		switch (type) {
 		case HOT_THOUGHT:
 			rr = DBUtil.getInstance().query(sqlProperties.getProperty("loadHotThoughts"), new Object[]{offset,limit});
@@ -124,8 +136,11 @@ public class ThoughtDAO {
 					t.loadThoughtProperties(rr.getRs());
 					ResultResource rrComment = DBUtil.getInstance().query(sqlProperties.getProperty("loadCommentsByThoughtId"), new Object[]{t.getId(),0,limit});
 					t.loadComments(rrComment);
+					ResultResource rrUBoost = DBUtil.getInstance().query(sqlProperties.getProperty("loadUserBoostByUserIdAndThoughtId"), new Object[]{user.getString("id"),t.getId()});
+					t.loadUserBoost(rrUBoost);
 					thoughts.add(t);
 					rrComment.close();
+					rrUBoost.close();
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -137,7 +152,6 @@ public class ThoughtDAO {
 		case HOME_THOUGHT:
 			ArrayList<Thought> thoughts2 = new ArrayList<Thought>();
 			ArrayList<Thought> thoughts3 = new ArrayList<Thought>();
-			JSONObject user = request.getJSONObject("user");
 			rr = DBUtil.getInstance().query(sqlProperties.getProperty("loadThoughtsByTags"), new Object[]{user.getString("id"),offset,limit});
 			try {
 				while(rr.getRs().next()){
@@ -145,8 +159,11 @@ public class ThoughtDAO {
 					t.loadThoughtProperties(rr.getRs());
 					ResultResource rrComment = DBUtil.getInstance().query(sqlProperties.getProperty("loadCommentsByThoughtId"), new Object[]{t.getId(),0,limit});
 					t.loadComments(rrComment);
+					ResultResource rrUBoost = DBUtil.getInstance().query(sqlProperties.getProperty("loadUserBoostByUserIdAndThoughtId"), new Object[]{user.getString("id"),t.getId()});
+					t.loadUserBoost(rrUBoost);
 					thoughts.add(t);
 					rrComment.close();
+					rrUBoost.close();
 				}
 			
 			} catch (SQLException e) {
@@ -173,8 +190,11 @@ public class ThoughtDAO {
 					t.loadThoughtProperties(rr.getRs());
 					ResultResource rrComment = DBUtil.getInstance().query(sqlProperties.getProperty("loadCommentsByThoughtId"), new Object[]{t.getId(),0,limit});
 					t.loadComments(rrComment);
+					ResultResource rrUBoost = DBUtil.getInstance().query(sqlProperties.getProperty("loadUserBoostByUserIdAndThoughtId"), new Object[]{user.getString("id"),t.getId()});
+					t.loadUserBoost(rrUBoost);					
 					thoughts.add(t);
 					rrComment.close();
+					rrUBoost.close();
 				}
 			
 			} catch (SQLException e) {
