@@ -268,9 +268,10 @@ public class ThoughtDAO {
 				ArrayList<Tag> tags = updateTags(t.getTags());
 				t.setTags(tags);
 				if(0 != t.getId()){
-					//update user_comment_thought
-					for (Tag tag: tags){
-						DBUtil.getInstance().update(sqlProperties.getProperty("AddNewTagToThought"), new Object[]{t.getUserId(), t.getId(), tag.getId()});
+					//update user_tag_thought
+					for (int i=0;i<tags.size();i++){
+						Tag tag = tags.get(i);
+						DBUtil.getInstance().update(sqlProperties.getProperty("addNewTagToThought"), new Object[]{t.getUserId(), t.getId(), tag.getId()});
 					}
 				}
 			} catch (SQLException e){
@@ -287,14 +288,19 @@ public class ThoughtDAO {
 	 * @throws SQLException
 	 */
 	private ArrayList<Tag> updateTags(ArrayList<Tag> tags) throws SQLException{
-		for (Tag tag : tags) {
-			ResultResource rr = new ResultResource();
-			DBUtil.getInstance().update(sqlProperties.getProperty("addNewTag"),rr, new Object[]{tag.getName()});
-			DBUtil.getInstance().query(sqlProperties.getProperty("loadInsertId"),rr, new Object[]{});
-			if(rr.getRs().next()){
-				tag.setId(rr.getRs().getInt("id"));
+		if(null != tags){
+			for (int i=0;i<tags.size();i++) {
+				Tag tag = tags.get(i);
+				if(!tag.getName().isEmpty()){
+					ResultResource rr = new ResultResource();
+					DBUtil.getInstance().update(sqlProperties.getProperty("addNewTag"),rr, new Object[]{tag.getName()});
+					DBUtil.getInstance().query(sqlProperties.getProperty("loadInsertId"),rr, new Object[]{});
+					if(rr.getRs().next()){
+						tag.setId(rr.getRs().getInt("id"));
+					}
+					rr.close();
+				} else tags.remove(tag);
 			}
-			rr.close();
 		}
 		return tags;
 	}
