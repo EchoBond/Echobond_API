@@ -16,6 +16,8 @@ import org.apache.commons.codec.binary.Base64;
  *
  */
 public class FileUtil {
+	private static final String DEFAULT_AVATAR = "C:/images/default_avatar.jpg";
+	private static final String NO_IMAGE = "C:/images/no_image.jpg";
 	/**
 	 * write image, decoding
 	 * @param path
@@ -42,15 +44,28 @@ public class FileUtil {
 		FileInputStream fis = null;
 		ByteArrayOutputStream bos = null;
 		int data = -1;
-		try {
-			fis = new FileInputStream(new File(path));
-			bos = new ByteArrayOutputStream();
-			while((data=(fis.read()))!=-1){
-				bos.write(data);
+
+			try {
+				fis = new FileInputStream(new File(path));
+			} catch (FileNotFoundException e) {
+				try {
+						if(path.contains("_")){
+							fis = new FileInputStream(new File(NO_IMAGE));
+						} else {
+							fis = new FileInputStream(new File(DEFAULT_AVATAR));
+						}
+				} catch (FileNotFoundException e1) {
+						e1.printStackTrace();
+				}
 			}
-			bos.close();
-			fis.close();
-			}catch(Exception e){  
+			try {
+				bos = new ByteArrayOutputStream();
+				while((data=(fis.read()))!=-1){
+					bos.write(data);
+				}
+				bos.close();
+				fis.close();				
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		return bos.toByteArray();

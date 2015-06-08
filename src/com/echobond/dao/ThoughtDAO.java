@@ -12,6 +12,7 @@ import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.echobond.entity.Comment;
 import com.echobond.entity.ResultResource;
 import com.echobond.entity.Tag;
 import com.echobond.entity.Thought;
@@ -32,6 +33,47 @@ public class ThoughtDAO {
 	private final static int HOME_THOUGHT=1;
 	private Properties sqlProperties;
 	private Logger log = LogManager.getLogger("Thought");
+	
+	/**
+	 * comment a thought
+	 * @param thought
+	 * @param user
+	 * @return id, time
+	 */
+	public JSONObject commentThought(Comment comment){
+		log.debug("Commenting thought.");
+		JSONObject result = new JSONObject();
+		ResultResource rr = new ResultResource();
+		String time = DateUtil.dateToString(new Date(), null);
+		DBUtil.getInstance().update(sqlProperties.getProperty("commentThought"), rr, new Object[]{comment.getUserId(), comment.getThoughtId(), comment.getReplyTo(), comment.getContent(), time});
+		DBUtil.getInstance().query(sqlProperties.getProperty("loadInsertId"), rr, new Object[]{});
+		int id = 0;
+		try{
+			rr.getRs().next();
+			id = rr.getRs().getInt("id");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			rr.close();
+		}
+		rr = DBUtil.getInstance().query(sqlProperties.getProperty("loadUserById"), new Object[]{comment.getUserId()});
+		try {
+			if(rr.getRs().next()){
+				String userName = rr.getRs().getString("username");
+				comment.setUserName(userName);
+			}			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			rr.close();
+		}
+		comment.setId(id);
+		comment.setTime(time);
+		JSONObject cmt = JSONObject.fromObject(comment);
+		result.put("comment", cmt);
+		log.debug("Commenting thought processed.");
+		return result;
+	}
 	
 	/**
 	 * boost or unboost a thought

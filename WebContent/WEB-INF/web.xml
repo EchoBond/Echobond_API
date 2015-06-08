@@ -275,11 +275,18 @@
   </servlet>
   <servlet>
     <description></description>
+    <display-name>CommentThoughtServlet</display-name>
+    <servlet-name>CommentThoughtServlet</servlet-name>
+    <servlet-class>com.echobond.servlet.CommentThoughtServlet</servlet-class>
+    <load-on-startup>21</load-on-startup>
+  </servlet>
+  <servlet>
+    <description></description>
     <display-name>GCMRegServlet</display-name>
     <servlet-name>GCMRegServlet</servlet-name>
     <servlet-class>com.echobond.servlet.GCMRegServlet</servlet-class>
     <load-on-startup>21</load-on-startup>
-  </servlet>  
+  </servlet>
   <servlet-mapping>
     <servlet-name>SignUpServlet</servlet-name>
     <url-pattern>/SignUpServlet</url-pattern>
@@ -363,5 +370,9 @@
   <servlet-mapping>
     <servlet-name>GCMRegServlet</servlet-name>
     <url-pattern>/GCMRegServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>CommentThoughtServlet</servlet-name>
+    <url-pattern>/CommentThoughtServlet</url-pattern>
   </servlet-mapping>
 </web-app>
