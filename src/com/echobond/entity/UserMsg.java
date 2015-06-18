@@ -1,5 +1,8 @@
 package com.echobond.entity;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  * 
  * @author Luck
@@ -11,9 +14,28 @@ public class UserMsg {
 	private String recverId;
 	private String time;
 	private String content;
+	private String userName;
 	
 	private User sender;
 	private User recver;
+	public void loadUserMsgProperties(ResultSet rs){
+		if(null != rs){
+			try {
+				id = rs.getInt("id");
+				senderId = rs.getString("sender_id");
+				recverId = rs.getString("recver_id");
+				time = rs.getString("time");
+				content = rs.getString("content");
+				try{
+					userName = rs.getString("username");
+				} catch(SQLException e1){
+					userName = null;
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	public int getId() {
 		return id;
 	}
@@ -55,6 +77,12 @@ public class UserMsg {
 	}
 	public void setRecver(User recver) {
 		this.recver = recver;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	
 }

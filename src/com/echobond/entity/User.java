@@ -31,7 +31,8 @@ public class User {
 	private String birthday;
 	private int countryId;
 	private int homeId;
-	private String occupation;
+	private String sthInteresting;
+	private String bio;
 	private String amzExp;
 	private String toDo;
 	private String philosophy;
@@ -68,7 +69,8 @@ public class User {
 				birthday = rs.getString("birthday");
 				countryId = rs.getInt("country_id");
 				homeId = rs.getInt("home_id");
-				occupation = rs.getString("occupation");
+				sthInteresting = rs.getString("sth_interesting");
+				bio = rs.getString("bio");
 				amzExp = rs.getString("amz_exp");
 				toDo = rs.getString("to_do");
 				philosophy = rs.getString("philosophy");
@@ -179,11 +181,17 @@ public class User {
 	public void setHomeId(int homeId) {
 		this.homeId = homeId;
 	}
-	public String getOccupation() {
-		return occupation;
+	public String getBio() {
+		return bio;
 	}
-	public void setOccupation(String occupation) {
-		this.occupation = occupation;
+	public void setBio(String bio) {
+		this.bio = bio;
+	}	
+	public String getSthInteresting() {
+		return sthInteresting;
+	}
+	public void setSthInteresting(String sthInteresting) {
+		this.sthInteresting = sthInteresting;
 	}
 	public String getAmzExp() {
 		return amzExp;

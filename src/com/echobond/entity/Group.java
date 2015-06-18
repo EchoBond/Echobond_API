@@ -1,5 +1,8 @@
 package com.echobond.entity;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  * 
  * @author Luck
@@ -8,6 +11,14 @@ package com.echobond.entity;
 public class Group {
 	private int id;
 	private String name;
+	public void loadGroupProperties(ResultSet rs){
+		try {
+			id = rs.getInt("id");
+			name = rs.getString("name");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	public int getId() {
 		return id;
 	}

@@ -13,23 +13,21 @@ import net.sf.json.JSONObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.echobond.dao.ValueDAO;
+import com.echobond.dao.UserDao;
 import com.echobond.util.StringUtil;
 
 /**
- * @author Luck
- * Servlet implementation class UpdateTagServlet
+ * Servlet implementation class SendUserMsgServlet
  */
-public class LoadGroupsServlet extends HttpServlet {
+public class SendUserMsgServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private Properties sqlProperties;
-	private ValueDAO dao;
-	private Logger log = LogManager.getLogger("LoadGroups");
-       
+    private UserDao dao;
+    private Properties sqlProperties;
+    private Logger log = LogManager.getLogger("SendUserMsg");
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoadGroupsServlet() {
+    public SendUserMsgServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -38,7 +36,7 @@ public class LoadGroupsServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		JSONObject result = dao.loadGroups(StringUtil.fromReaderToJSON(request.getReader()));
+		JSONObject result = dao.addUserMsg(StringUtil.fromReaderToJSON(request.getReader()));
 		response.setContentType("text/json;charset=UTF-8");
 		response.getWriter().write(result.toString());
 	}
@@ -54,7 +52,7 @@ public class LoadGroupsServlet extends HttpServlet {
 	public void init() throws ServletException {
 		log.debug("Servlet initiating.");
 		sqlProperties = (Properties) getServletContext().getAttribute("sqlProperties");
-		dao = new ValueDAO();
+		dao = new UserDao();
 		dao.setSqlProperties(sqlProperties);
 		log.debug("Servlet initiated.");
 	}

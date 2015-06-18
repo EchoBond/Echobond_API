@@ -33,14 +33,7 @@ public class AccountDAO {
 		ResultResource rr = DBUtil.getInstance().query(sqlProperties.getProperty("loadUserByUserIdAndEmail"), new Object[]{userId, email});
 		try {
 			if(rr.getRs().next()){
-				rr.close();
-				rr = DBUtil.getInstance().query(sqlProperties.getProperty("loadUserGCM"), new Object[]{userId, regId});
-				if(rr.getRs().next()){
-					String oldRegId = rr.getRs().getString("reg_id");
-					DBUtil.getInstance().update(sqlProperties.getProperty("updateUserGCM"), new Object[]{regId, DateUtil.dateToString(new Date(), null), userId, oldRegId});
-				} else {
-					DBUtil.getInstance().update(sqlProperties.getProperty("regUserGCM"), new Object[]{userId, regId, DateUtil.dateToString(new Date(), null)});
-				}
+				DBUtil.getInstance().update(sqlProperties.getProperty("updateUserGCM"), new Object[]{regId, DateUtil.dateToString(new Date(), null), userId});
 				result.put("result", "1");
 			} else {
 				result.put("result", "0");

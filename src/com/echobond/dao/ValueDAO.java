@@ -189,22 +189,59 @@ public class ValueDAO {
 	 * load all groups
 	 * @return group list
 	 */
-	public JSONObject loadGroups(){
+	public JSONObject loadGroups(JSONObject request){
 		log.debug("Loading groups");
-		JSONObject result = new JSONObject();
+		JSONObject result = new JSONObject(), userJSON;
 		ArrayList<Group> groups = new ArrayList<Group>();
-		ResultResource rr = DBUtil.getInstance().query(sqlProperties.getProperty("loadGroups"), new Object[]{});
-		try {
-			while(rr.getRs().next()){
-				Group t = new Group();
-				t.setId(rr.getRs().getInt("id"));
-				t.setName(rr.getRs().getString("name"));
-				groups.add(t);
+		//load all groups
+		if(null == request || request.isNullObject() || request.isEmpty()){
+			ResultResource rr = DBUtil.getInstance().query(sqlProperties.getProperty("loadGroups"), new Object[]{});
+			try {
+				while(rr.getRs().next()){
+					Group t = new Group();
+					t.setId(rr.getRs().getInt("id"));
+					t.setName(rr.getRs().getString("name"));
+					groups.add(t);
+				}
+			} catch (SQLException e) {
+				log.error(e.getMessage() + " when loading groups.");
+			} finally {
+				rr.close();
 			}
-		} catch (SQLException e) {
-			log.error(e.getMessage() + " when loading groups.");
-		} finally {
-			rr.close();
+		}
+		//load user followed groups
+		else if((userJSON = request.getJSONObject("user"))!= null && !userJSON.isNullObject() && !userJSON.isEmpty()){
+			User user = (User) JSONObject.toBean(userJSON, User.class);
+			ResultResource rr = DBUtil.getInstance().query(sqlProperties.getProperty("loadGroupsByUserId"), 
+					new Object[]{user.getId()});
+			try {
+				while(rr.getRs().next()){
+					Group g = new Group();
+					g.loadGroupProperties(rr.getRs());
+					groups.add(g);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				rr.close();
+			}
+		}
+		//load random groups
+		else {
+			int random = request.getInt("random");
+			ResultResource rr = DBUtil.getInstance().query(sqlProperties.getProperty("loadRandomGroups"), 
+					new Object[]{random});
+			try {
+				while(rr.getRs().next()){
+					Group g = new Group();
+					g.loadGroupProperties(rr.getRs());
+					groups.add(g);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				rr.close();
+			}
 		}
 		result.put("groups", groups);
 		log.debug("Groups loading processed.");

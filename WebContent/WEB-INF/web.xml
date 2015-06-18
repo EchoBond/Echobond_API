@@ -287,6 +287,20 @@
     <servlet-class>com.echobond.servlet.GCMRegServlet</servlet-class>
     <load-on-startup>21</load-on-startup>
   </servlet>
+  <servlet>
+    <description></description>
+    <display-name>LoadUserMsgServlet</display-name>
+    <servlet-name>LoadUserMsgServlet</servlet-name>
+    <servlet-class>com.echobond.servlet.LoadUserMsgServlet</servlet-class>
+    <load-on-startup>22</load-on-startup>
+  </servlet>
+  <servlet>
+    <description></description>
+    <display-name>SendUserMsgServlet</display-name>
+    <servlet-name>SendUserMsgServlet</servlet-name>
+    <servlet-class>com.echobond.servlet.SendUserMsgServlet</servlet-class>
+    <load-on-startup>23</load-on-startup>
+  </servlet>
   <servlet-mapping>
     <servlet-name>SignUpServlet</servlet-name>
     <url-pattern>/SignUpServlet</url-pattern>
@@ -374,5 +388,23 @@
   <servlet-mapping>
     <servlet-name>CommentThoughtServlet</servlet-name>
     <url-pattern>/CommentThoughtServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>LoadUserMsgServlet</servlet-name>
+    <url-pattern>/LoadUserMsgServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SendUserMsgServlet</servlet-name>
+    <url-pattern>/SendUserMsgServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UpdateUserServlet</display-name>
+    <servlet-name>UpdateUserServlet</servlet-name>
+    <servlet-class>com.echobond.servlet.UpdateUserServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UpdateUserServlet</servlet-name>
+    <url-pattern>/UpdateUserServlet</url-pattern>
   </servlet-mapping>
 </web-app>

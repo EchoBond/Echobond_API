@@ -8,10 +8,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONObject;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.echobond.dao.UserDao;
+import com.echobond.util.StringUtil;
 
 /**
  * @author Luck
@@ -33,8 +36,10 @@ public class LoadUsersServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
+		JSONObject result = dao.loadUser(StringUtil.fromReaderToJSON(request.getReader()));
+		response.setContentType("text/json;charset=UTF-8");
+		response.getWriter().write(result.toString());
 	}
 
 	/**

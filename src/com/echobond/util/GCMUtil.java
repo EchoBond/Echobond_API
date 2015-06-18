@@ -11,6 +11,7 @@ import net.sf.json.JSONObject;
 
 import com.echobond.entity.RawHttpRequest;
 import com.echobond.entity.RawHttpResponse;
+import com.echobond.entity.UserMsg;
 
 /**
  * 
@@ -67,15 +68,23 @@ public class GCMUtil {
 	}
 	public static void main(String[] args) {
 		ArrayList<String> regIdList = new ArrayList<String>();
-		regIdList.add("APA91bESvNoN0rNhPDx7MUkMVDmwWMD050pCzqr-ndg9wpU1I4ib7EUayVSgCAFOj0Xl0JjMy_xiDp6Fk1dqCb8qV37Yw7xBhyW-sxe_P94qZdIN6rehjpaBZNxRUvChw8FZA3tTk7Jf");
+		//regIdList.add("APA91bG2OAkEurJD5gefktYV1X7D_fxU2QjBrR1NW4g32SPxxenOSIeU5yKj1gvSCIb7Fg0R3udNfJ1OGSCQ17ptn6nkYEv30ecKrl5bEEYW-zxe-ipdZgAdcC-rmX5-NQ6zp1RmGEfa");
+		//regIdList.add("APA91bGLJtPT7ox9CqOObUFeddoQa_KQEiPSZZih0nPsKDwps53K3cq1i6tbiPaN-k5l-wFZuG865oKD4BB8kz87tAcncvcn___dcjg3OI3EUtOKHTaZgiGvHWLqIDQh7kzCkOLdbcDB");
+		regIdList.add("dvegGdEKzO8:APA91bFzmCY1ubIEREUNex1Onffj41kBfjSRE6pb_bGd9voX5NDtopMxdSampJuVmJr9TruoLxVAdX6tJ88SGeOZTOa6wR6sBPL_lEsdlJpfL8o-oMkpNj_NvS15EGTJNT9NsaOezdg7");
 		JSONObject data = new JSONObject();
 		getInstance().gcmProperties = new Properties();
-		getInstance().gcmProperties.setProperty("Auth-Server", "https://android.googleapis.com/gcm/send");
-		getInstance().gcmProperties.setProperty("Authorization", "key=AIzaSyAO4pcWMUq2xukdGphSdrht3H3fWKDP5u4");
+		//getInstance().gcmProperties.setProperty("Auth-Server", "https://android.googleapis.com/gcm/send");
+		getInstance().gcmProperties.setProperty("Auth-Server", "https://gcm-http.googleapis.com/gcm/send");		
+		getInstance().gcmProperties.setProperty("Authorization", "key=AIzaSyDr8FGg4tuPjGdeJhPosuO5KL6rti9N0pE");
 		getInstance().gcmProperties.setProperty("Content-Type", "application/json");
-		data.put("type", "newBoost");
-		data.put("thought", "hike");
-		data.put("category", "interest");
+		UserMsg msg = new UserMsg();
+		msg.setId(666);
+		msg.setContent("666");
+		msg.setUserName("123");
+		msg.setSenderId("1423913904795");
+		msg.setRecverId("1423912193061");
+		msg.setTime("2000-00-00");
+		data.put("msg", msg);
 		RawHttpResponse response = getInstance().sendToDevices(regIdList, data);
 		System.out.println(response.getMsg());
 	}
