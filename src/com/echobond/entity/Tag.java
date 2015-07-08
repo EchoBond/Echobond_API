@@ -1,5 +1,7 @@
 package com.echobond.entity;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -22,6 +24,15 @@ public class Tag {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public void loadTagProperties(ResultSet rs){
+		try {
+			id = rs.getInt("id");
+			name = rs.getString("name");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}	
 	public static ArrayList<Tag> str2TagList(String src){
 		ArrayList<Tag> tags = new ArrayList<Tag>();
 		String[] tagNames = src.split(",");

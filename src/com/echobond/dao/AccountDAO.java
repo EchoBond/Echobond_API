@@ -353,7 +353,7 @@ public class AccountDAO {
 			//new user
 			if(!rr.getRs().next()){
 				user.setId(genUserId());
-				DBUtil.getInstance().update(sqlProperties.getProperty("addNewFBUser"), new Object[]{userId, "", user.getEmail(), user.getFBId(), user.getFirstName(), user.getLastName(), user.getName(), user.getTimeZone(), user.getLocale(), user.getGender(), 1});
+				DBUtil.getInstance().update(sqlProperties.getProperty("addNewFBUser"), new Object[]{user.getId(), "", user.getEmail(), user.getFBId(), user.getFirstName(), user.getLastName(), user.getName(), user.getTimeZone(), user.getLocale(), user.getGender(), 1});
 				result.put("user", user);
 				result.put("new", 1);
 			}
@@ -383,7 +383,7 @@ public class AccountDAO {
 	 */
 	private String composeResetLink(String to, String code, String timeStamp){
 		StringBuffer link = new StringBuffer();
-		link.append("http://localhost/EchoBond_Demo/ConfirmPassResetServlet?email=");
+		link.append("http://www.echobond.com/Echobond_API/ConfirmPassResetServlet?email=");
 		link.append(to);
 		link.append("&code=");
 		link.append(code);
@@ -452,7 +452,7 @@ public class AccountDAO {
 	 * @return link
 	 */
 	private String composeActivateLink(String to, String code, String timeStamp){
-		StringBuffer link = new StringBuffer("http://localhost/EchoBond_Demo/AccountActiveServlet?email=");
+		StringBuffer link = new StringBuffer("http://www.echobond.com/Echobond_API/AccountActiveServlet?email=");
 		link.append(to);
 		link.append("&code=");
 		link.append(code);

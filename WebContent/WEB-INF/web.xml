@@ -301,6 +301,88 @@
     <servlet-class>com.echobond.servlet.SendUserMsgServlet</servlet-class>
     <load-on-startup>23</load-on-startup>
   </servlet>
+  <servlet>
+    <description></description>
+    <display-name>AckUserMsgServlet</display-name>
+    <servlet-name>AckUserMsgServlet</servlet-name>
+    <servlet-class>com.echobond.servlet.AckUserMsgServlet</servlet-class>
+    <load-on-startup>24</load-on-startup>
+  </servlet>
+  <servlet>
+    <description></description>
+    <display-name>FetchDataServlet</display-name>
+    <servlet-name>FetchDataServlet</servlet-name>
+    <servlet-class>com.echobond.servlet.FetchDataServlet</servlet-class>
+    <load-on-startup>25</load-on-startup>
+  </servlet>
+  <servlet>
+    <description></description>
+    <display-name>UpdateUserServlet</display-name>
+    <servlet-name>UpdateUserServlet</servlet-name>
+    <servlet-class>com.echobond.servlet.UpdateUserServlet</servlet-class>
+    <load-on-startup>26</load-on-startup>
+  </servlet>
+  <servlet>
+    <description></description>
+    <display-name>LoadSearchPplServlet</display-name>
+    <servlet-name>LoadSearchPplServlet</servlet-name>
+    <servlet-class>com.echobond.servlet.LoadSearchPplServlet</servlet-class>
+    <load-on-startup>27</load-on-startup>
+  </servlet>
+  <servlet>
+    <description></description>
+    <display-name>LoadSearchThoughtServlet</display-name>
+    <servlet-name>LoadSearchThoughtServlet</servlet-name>
+    <servlet-class>com.echobond.servlet.LoadSearchThoughtServlet</servlet-class>
+    <load-on-startup>28</load-on-startup>
+  </servlet>
+  <servlet>
+    <description></description>
+    <display-name>InitFetchServlet</display-name>
+    <servlet-name>InitFetchServlet</servlet-name>
+    <servlet-class>com.echobond.servlet.InitFetchServlet</servlet-class>
+    <load-on-startup>29</load-on-startup>
+  </servlet>
+  <servlet>
+    <description></description>
+    <display-name>FollowGroupServlet</display-name>
+    <servlet-name>FollowGroupServlet</servlet-name>
+    <servlet-class>com.echobond.servlet.FollowGroupServlet</servlet-class>
+    <load-on-startup>30</load-on-startup>
+  </servlet>
+  <servlet>
+    <description></description>
+    <display-name>FollowTagServlet</display-name>
+    <servlet-name>FollowTagServlet</servlet-name>
+    <servlet-class>com.echobond.servlet.FollowTagServlet</servlet-class>
+    <load-on-startup>31</load-on-startup>
+  </servlet>
+  <servlet>
+    <description></description>
+    <display-name>SearchThoughtServlet</display-name>
+    <servlet-name>SearchThoughtServlet</servlet-name>
+    <servlet-class>com.echobond.servlet.SearchThoughtServlet</servlet-class>
+    <load-on-startup>32</load-on-startup>
+  </servlet>
+  <servlet>
+    <description></description>
+    <display-name>SearchPplServlet</display-name>
+    <servlet-name>SearchPplServlet</servlet-name>
+    <servlet-class>com.echobond.servlet.SearchPplServlet</servlet-class>
+    <load-on-startup>33</load-on-startup>
+  </servlet>
+  <servlet>
+    <description></description>
+    <display-name>TagSelfServlet</display-name>
+    <servlet-name>TagSelfServlet</servlet-name>
+    <servlet-class>com.echobond.servlet.TagSelfServlet</servlet-class>
+    <load-on-startup>34</load-on-startup>
+  </servlet>  
+  <filter>
+    <display-name>ContentTypeFilter</display-name>
+    <filter-name>ContentTypeFilter</filter-name>
+    <filter-class>com.echobond.filter.ContentTypeFilter</filter-class>
+  </filter>
   <servlet-mapping>
     <servlet-name>SignUpServlet</servlet-name>
     <url-pattern>/SignUpServlet</url-pattern>
@@ -397,14 +479,52 @@
     <servlet-name>SendUserMsgServlet</servlet-name>
     <url-pattern>/SendUserMsgServlet</url-pattern>
   </servlet-mapping>
-  <servlet>
-    <description></description>
-    <display-name>UpdateUserServlet</display-name>
-    <servlet-name>UpdateUserServlet</servlet-name>
-    <servlet-class>com.echobond.servlet.UpdateUserServlet</servlet-class>
-  </servlet>
   <servlet-mapping>
     <servlet-name>UpdateUserServlet</servlet-name>
     <url-pattern>/UpdateUserServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AckUserMsgServlet</servlet-name>
+    <url-pattern>/AckUserMsgServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>FetchDataServlet</servlet-name>
+    <url-pattern>/FetchDataServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>LoadSearchPplServlet</servlet-name>
+    <url-pattern>/LoadSearchPplServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>LoadSearchThoughtServlet</servlet-name>
+    <url-pattern>/LoadSearchThoughtServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>InitFetchServlet</servlet-name>
+    <url-pattern>/InitFetchServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>FollowGroupServlet</servlet-name>
+    <url-pattern>/FollowGroupServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>FollowTagServlet</servlet-name>
+    <url-pattern>/FollowTagServlet</url-pattern>
+  </servlet-mapping>
+  <filter-mapping>
+    <filter-name>ContentTypeFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <servlet-mapping>
+    <servlet-name>SearchThoughtServlet</servlet-name>
+    <url-pattern>/SearchThoughtServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SearchPplServlet</servlet-name>
+    <url-pattern>/SearchPplServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>TagSelfServlet</servlet-name>
+    <url-pattern>/TagSelfServlet</url-pattern>
   </servlet-mapping>
 </web-app>

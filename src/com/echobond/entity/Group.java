@@ -8,7 +8,7 @@ import java.sql.SQLException;
  * @author Luck
  *
  */
-public class Group {
+public class Group{
 	private int id;
 	private String name;
 	public void loadGroupProperties(ResultSet rs){

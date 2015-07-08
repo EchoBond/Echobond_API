@@ -36,7 +36,7 @@ public class UpdateUserServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		JSONObject result = dao.updateUserExt(StringUtil.fromReaderToJSON(request.getReader()));
+		JSONObject result = dao.updateUser(StringUtil.fromReaderToJSON(request.getReader()));
 		response.setContentType("text/json;charset=UTF-8");
 		response.getWriter().write(result.toString());
 	}

@@ -40,13 +40,8 @@ public class UpdateCategoryServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//Reader -> JSON String -> JSON Object
-		JSONObject reqJSON = StringUtil.fromReaderToJSON(request.getReader());
-		//JSON Object -> Bean
-		ArrayList<Tag> tags = (ArrayList<Tag>) JSONObject.toBean(reqJSON, ArrayList.class);
-		JSONObject result = dao.updateTags(tags);
 		response.setContentType("text/json;charset=UTF-8");
-		response.getWriter().write(result.toString());
+		response.getWriter().write("".toString());
 	}
 
 	/**

@@ -1,7 +1,6 @@
 package com.echobond.servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Properties;
 
 import javax.servlet.ServletException;
@@ -15,7 +14,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.echobond.dao.ValueDAO;
-import com.echobond.entity.Tag;
 import com.echobond.util.StringUtil;
 
 /**
@@ -40,11 +38,7 @@ public class UpdateTagsServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//Reader -> JSON String -> JSON Object
-		JSONObject reqJSON = StringUtil.fromReaderToJSON(request.getReader());
-		//JSON Object -> Bean
-		ArrayList<Tag> tags = (ArrayList<Tag>) JSONObject.toBean(reqJSON, ArrayList.class);
-		JSONObject result = dao.updateTags(tags);
+		JSONObject result = dao.updateTags(StringUtil.fromReaderToJSON(request.getReader()));
 		response.setContentType("text/json;charset=UTF-8");
 		response.getWriter().write(result.toString());
 	}

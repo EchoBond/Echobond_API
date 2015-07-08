@@ -20,6 +20,7 @@ import com.echobond.entity.User;
 import com.echobond.util.DBUtil;
 import com.echobond.util.DateUtil;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 /**
@@ -30,7 +31,8 @@ import net.sf.json.JSONObject;
  */
 public class ThoughtDAO {
 	private final static int HOT_THOUGHT = 0;
-	private final static int HOME_THOUGHT=1;
+	private final static int HOME_THOUGHT = 1;
+	private final static int SEARCH_THOUGHT = 2;
 	private Properties sqlProperties;
 	private Logger log = LogManager.getLogger("Thought");
 	
@@ -248,6 +250,62 @@ public class ThoughtDAO {
 			if(list.size() > limit)
 				result.put("thoughts",list.subList(0, limit));
 			else result.put("thoughts", list);			
+			break;
+		case SEARCH_THOUGHT:
+			JSONObject condition = request.getJSONObject("condition");
+			String key = condition.getString("key");
+			if(null != key){
+				if(key.equals("c")){
+					Integer cId = condition.getInt("id");
+					rr = DBUtil.getInstance().query(sqlProperties.getProperty("searchThoughtByCategoryId"), 
+							new Object[]{cId, offset,limit});
+				} else if(key.equals("g")){
+					Integer gId = condition.getInt("id");
+					rr = DBUtil.getInstance().query(sqlProperties.getProperty("searchThoughtByGroupId"), 
+							new Object[]{gId, offset,limit});
+				} else if(key.equals("t")){
+					JSONArray idList = condition.getJSONArray("idList");
+					Object[] params = new Object[12];
+					for(int i=0;i<10;i++){
+						if(idList.size() <= i){
+							params[i] = 0;
+						} else {
+							params[i] = idList.get(i);
+						}
+					}
+					params[10] = offset;
+					params[11] = limit;
+					rr = DBUtil.getInstance().query(sqlProperties.getProperty("searchThoughtByTagId"), 
+							params);
+				} else if(key.equals("k")){
+					String keyword = condition.getString("keyword");
+					String sql = sqlProperties.getProperty("searchThoughtByKeyword") + "'%" + keyword + 
+						"%' ORDER BY time DESC LIMIT ?,?";
+					rr = DBUtil.getInstance().query(sql, new Object[]{offset, limit});
+				} else if(key.equals("u")){
+					String userId = condition.getString("userId");
+					String sql = sqlProperties.getProperty("loadThoughtsByUserId");
+					rr = DBUtil.getInstance().query(sql, new Object[]{userId, offset, limit});
+				}
+			}
+			try {
+				while(rr.getRs().next()){
+					Thought t = new Thought();
+					t.loadThoughtProperties(rr.getRs());
+					ResultResource rrComment = DBUtil.getInstance().query(sqlProperties.getProperty("loadCommentsByThoughtId"), new Object[]{t.getId(),0,limit});
+					t.loadComments(rrComment);
+					ResultResource rrUBoost = DBUtil.getInstance().query(sqlProperties.getProperty("loadUserBoostByUserIdAndThoughtId"), new Object[]{user.getString("id"),t.getId()});
+					t.loadUserBoost(rrUBoost);
+					thoughts.add(t);
+					rrComment.close();
+					rrUBoost.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				rr.close();
+			}
+			result.put("thoughts", thoughts);			
 			break;
 		default:
 			break;

@@ -17,19 +17,18 @@ import com.echobond.dao.ValueDAO;
 import com.echobond.util.StringUtil;
 
 /**
- * @author Luck
- * Servlet implementation class UpdateTagServlet
+ * Servlet implementation class LoadSearchPplServlet
  */
-public class UpdateGroupServlet extends HttpServlet {
+public class LoadSearchPplServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+       
 	private Properties sqlProperties;
 	private ValueDAO dao;
-	private Logger log = LogManager.getLogger("UpdateGroup");
-       
+	private Logger log = LogManager.getLogger("LoadSearchPpl");
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UpdateGroupServlet() {
+    public LoadSearchPplServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,9 +36,8 @@ public class UpdateGroupServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		JSONObject result = dao.updateGroups(StringUtil.fromReaderToJSON(request.getReader()));
+		JSONObject result = dao.loadSearchPeopleValues(StringUtil.fromReaderToJSON(request.getReader()));
 		response.setContentType("text/json;charset=UTF-8");
 		response.getWriter().write(result.toString());
 	}
@@ -54,7 +52,7 @@ public class UpdateGroupServlet extends HttpServlet {
 	@Override
 	public void init() throws ServletException {
 		log.debug("Servlet initiating.");
-		sqlProperties = (Properties) getServletContext().getAttribute("sqlProperties");
+		sqlProperties = (Properties) this.getServletContext().getAttribute("sqlProperties");
 		dao = new ValueDAO();
 		dao.setSqlProperties(sqlProperties);
 		log.debug("Servlet initiated.");

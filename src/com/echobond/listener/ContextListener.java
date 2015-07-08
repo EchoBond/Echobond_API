@@ -43,7 +43,6 @@ public class ContextListener implements ServletContextListener, ServletContextAt
     	loadSql(ctx);
     	initGCM(ctx);
     }
-
 	/**
      * @see ServletContextListener#contextDestroyed(ServletContextEvent)
      */

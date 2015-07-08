@@ -21,6 +21,9 @@ import net.sf.json.JSONObject;
  *
  */
 public class ImageDAO {
+	public static final int IMAGE_TYPE_USER = 1;
+	public static final int IMAGE_TYPE_POST = 2;
+	
 	private Properties sqlProperties;
 	private ServletContext ctx;
 	private String localPath;
@@ -56,7 +59,16 @@ public class ImageDAO {
 			rr.close();
 		}
 		/* Write file */
-		String path = userId + "_" + System.currentTimeMillis();
+		int type = req.getInt("type");
+		String path = "";
+		switch(type){
+		case IMAGE_TYPE_USER:
+			path = userId;
+			break;
+		case IMAGE_TYPE_POST:
+			path = userId + "_" + System.currentTimeMillis();
+			break;
+		}
 		boolean r = FileUtil.writeFile(localPath + path + IMAGE_FILE_SUFFIX, data);
 		if(r){
 			result.put("result", "1");

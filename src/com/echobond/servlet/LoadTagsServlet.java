@@ -14,7 +14,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.echobond.dao.ValueDAO;
-import com.echobond.entity.User;
 import com.echobond.util.StringUtil;
 
 /**
@@ -39,23 +38,7 @@ public class LoadTagsServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//Reader -> JSON String -> JSON Object
-		JSONObject reqJSON = StringUtil.fromReaderToJSON(request.getReader());
-		JSONObject result = new JSONObject();
-		//load all
-		if(null == reqJSON){
-			result.put("tags", dao.loadTags());
-		} else if(null != reqJSON.getJSONObject("user")){
-			User user = (User) JSONObject.toBean(reqJSON, User.class);
-			result.put("tags", dao.loadTagsByUserId(user));
-		} else {
-			String type = reqJSON.getString("type");
-			if(type.equals("hot")){
-				
-			} else if(type.equals("fast")){
-				
-			}
-		}
+		JSONObject result = dao.loadTags(StringUtil.fromReaderToJSON(request.getReader()));
 		response.setContentType("text/json;charset=UTF-8");
 		response.getWriter().write(result.toString());
 	}

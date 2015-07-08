@@ -1,5 +1,8 @@
 package com.echobond.entity;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  * 
  * @author Luck
@@ -9,6 +12,15 @@ public class Language {
 	private int id;
 	private String name;
 	private String region;
+	public void loadLanguageProperties(ResultSet rs){
+		try{
+			id = rs.getInt("id");
+			name = rs.getString("name");
+			region = rs.getString("region");
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+	}	
 	public int getId() {
 		return id;
 	}

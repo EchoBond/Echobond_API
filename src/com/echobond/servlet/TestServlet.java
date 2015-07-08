@@ -1,10 +1,18 @@
 package com.echobond.servlet;
 
 import java.io.IOException;
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONObject;
+
+import com.echobond.entity.RawHttpRequest;
+import com.echobond.util.HTTPUtil;
 
 /**
  * @author Luck
@@ -37,5 +45,14 @@ public class TestServlet extends HttpServlet {
 
 	@Override
 	public void init() throws ServletException {
+    	JSONObject body = new JSONObject();
+    	RawHttpRequest request = new RawHttpRequest("http://147.8.138.9/TestServlet", RawHttpRequest.HTTP_METHOD_POST, null, body);
+    	try {
+			HTTPUtil.getInstance().send(request);
+		} catch (SocketTimeoutException e) {
+			e.printStackTrace();
+		} catch (ConnectException e) {
+			e.printStackTrace();
+		}		
 	}
 }

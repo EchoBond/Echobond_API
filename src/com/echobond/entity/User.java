@@ -1,5 +1,6 @@
 package com.echobond.entity;
 
+import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -11,8 +12,9 @@ import java.util.Map;
  * @author Luck
  *
  */
-public class User {
+public class User implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
 	public static final int UNVERFIED = 0;
 	public static final int VERIFIED = 1;
 	
@@ -25,7 +27,6 @@ public class User {
 	private String lastName;
 	private String name;
 	private int timeZone;
-	private String avatar;
 	private String gender;
 	private int age;
 	private String birthday;
@@ -63,7 +64,6 @@ public class User {
 				name = rs.getString("name");
 				timeZone = rs.getInt("time_zone");
 				email = rs.getString("email");
-				avatar = rs.getString("avatar");
 				gender = rs.getString("gender");
 				age = rs.getInt("age");
 				birthday = rs.getString("birthday");
@@ -150,12 +150,6 @@ public class User {
 	}
 	public void setEmail(String email) {
 		this.email = email;
-	}
-	public String getAvatar() {
-		return avatar;
-	}
-	public void setAvatar(String avatar) {
-		this.avatar = avatar;
 	}
 	public int getAge() {
 		return age;
