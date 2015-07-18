@@ -1,7 +1,6 @@
 package com.echobond.servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Properties;
 
 import javax.servlet.ServletException;
@@ -9,14 +8,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONObject;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.echobond.dao.ValueDAO;
-import com.echobond.entity.Tag;
-import com.echobond.util.StringUtil;
 
 /**
  * @author Luck

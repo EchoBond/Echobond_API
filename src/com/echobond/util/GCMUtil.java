@@ -70,7 +70,7 @@ public class GCMUtil {
 		ArrayList<String> regIdList = new ArrayList<String>();
 		//regIdList.add("APA91bG2OAkEurJD5gefktYV1X7D_fxU2QjBrR1NW4g32SPxxenOSIeU5yKj1gvSCIb7Fg0R3udNfJ1OGSCQ17ptn6nkYEv30ecKrl5bEEYW-zxe-ipdZgAdcC-rmX5-NQ6zp1RmGEfa");
 		//regIdList.add("APA91bGLJtPT7ox9CqOObUFeddoQa_KQEiPSZZih0nPsKDwps53K3cq1i6tbiPaN-k5l-wFZuG865oKD4BB8kz87tAcncvcn___dcjg3OI3EUtOKHTaZgiGvHWLqIDQh7kzCkOLdbcDB");
-		regIdList.add("eV6RqJyiv9E:APA91bHpMdmHwg2H4xh9b6Kunj8swQkQt878Pc9OXC_rSKQ5JpkzoiuXwj4tyXoFQVa2fm1HC7cHLcUA_lG7Ir2AJx-8nzpyYnHi6gaNASwXjW2DcRhE5bjzCxGDl7kCDbJC-X-3fcO7");
+		regIdList.add("eMItJvVihCc:APA91bFUCuWrXyZmMmGLYVcQzQZjwsEBg_3OBuulC6OTLtbU9Wwg2a12q39_YEFDan8Dw7MrjMnmw3VQ4DOBfkBoBJgYpwqc8RXEr6Ia6p-OrTQ8urd7kYkgT59qzyJaH8CsdBgTyAdU");
 		JSONObject data = new JSONObject();
 		getInstance().gcmProperties = new Properties();
 		//getInstance().gcmProperties.setProperty("Auth-Server", "https://android.googleapis.com/gcm/send");

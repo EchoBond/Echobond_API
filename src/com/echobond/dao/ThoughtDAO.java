@@ -247,9 +247,11 @@ public class ThoughtDAO {
 				rr.close();
 			}
 			ArrayList<Thought> list = sortThoughtsByTime(thoughts, thoughts2, thoughts3);
-			if(list.size() > limit)
+			if(list.size() > limit){
 				result.put("thoughts",list.subList(0, limit));
-			else result.put("thoughts", list);			
+			} else{
+				result.put("thoughts", list);
+			}
 			break;
 		case SEARCH_THOUGHT:
 			JSONObject condition = request.getJSONObject("condition");
@@ -390,6 +392,7 @@ public class ThoughtDAO {
 			}
 		};
 		Collections.sort(list, comparator);
+		Collections.reverse(list);
 		return list;
 	}
 	

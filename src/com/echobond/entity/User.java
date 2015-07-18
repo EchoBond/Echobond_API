@@ -19,6 +19,7 @@ public class User implements Serializable{
 	public static final int VERIFIED = 1;
 	
 	private String id;
+	private String avatar;
 	private String userName;
 	private String password;
 	private String email;
@@ -56,6 +57,7 @@ public class User implements Serializable{
 		if(null != rs){
 			try{
 				id = rs.getString("id");
+				avatar = rs.getString("avatar");
 				userName = rs.getString("username");
 				password = rs.getString("password");
 				FBId = rs.getString("fb_id");
@@ -102,6 +104,12 @@ public class User implements Serializable{
 	}
 	public void setId(String id) {
 		this.id = id;
+	}
+	public String getAvatar() {
+		return avatar;
+	}
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
 	}
 	public String getUserName() {
 		return userName;
